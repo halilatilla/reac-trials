@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table } from "reactstrap";
+import { Table, Button } from "reactstrap";
 
 export default class ProductList extends Component {
   render() {
@@ -9,21 +9,30 @@ export default class ProductList extends Component {
         <Table>
           <thead>
             <tr>
-              <th>categoryId</th>
+              <th>Id</th>
               <th>productName</th>
               <th>quantityPerUnit</th>
               <th>unitPrice</th>
               <th>unitsInStock</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {this.props.products.map(products => (
-              <tr key={products.id}>
-                <th scope="row"> {products.categoryId} </th>
-                <td> {products.productName} </td>
-                <td> {products.quantityPerUnit} </td>
-                <td> {products.unitPrice} </td>
-                <td> {products.unitsInStock} </td>
+            {this.props.product.map(product => (
+              <tr key={product.id}>
+                <th scope="row"> {product.id} </th>
+                <td> {product.productName} </td>
+                <td> {product.quantityPerUnit} </td>
+                <td> {product.unitPrice} </td>
+                <td> {product.unitsInStock} </td>
+                <td>
+                  <Button
+                    onClick={() => this.props.addToCart(product)}
+                    color="primary"
+                  >
+                    Add
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
