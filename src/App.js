@@ -4,6 +4,9 @@ import Nav from "./Nav";
 import CategoryList from "./CategoryList";
 import ProductList from "./ProductList";
 import alertify from "alertifyjs";
+import { Route, Switch } from "react-router-dom";
+import NotFound from "./NotFound";
+import CartList from "./CartList";
 
 export default class App extends Component {
   state = {
@@ -51,6 +54,7 @@ export default class App extends Component {
   removeFromCart = product => {
     let newCart = this.state.cart.filter(c => c.product.id !== product.id);
     this.setState({ cart: newCart });
+    alertify.error(product.productName + "   removed from cart");
   };
   render() {
     let categoryInfo = { title: "Category List" };
@@ -69,11 +73,32 @@ export default class App extends Component {
               />
             </Col>
             <Col xs="9">
-              <ProductList
-                addToCart={this.addToCart}
-                info={productInfo}
-                product={this.state.product}
-              />
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => (
+                    <ProductList
+                      {...props}
+                      addToCart={this.addToCart}
+                      info={productInfo}
+                      product={this.state.product}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/cart"
+                  render={props => (
+                    <CartList
+                      {...props}
+                      removeFromCart={this.removeFromCart}
+                      cart={this.state.cart}
+                    />
+                  )}
+                />
+                <Route component={NotFound} />
+              </Switch>
             </Col>
           </Row>
         </Container>
